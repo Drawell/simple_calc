@@ -1,4 +1,4 @@
-package internal
+package simple_calc
 
 import "fmt"
 

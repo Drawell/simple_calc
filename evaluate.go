@@ -1,4 +1,4 @@
-package internal
+package simple_calc
 
 func Evaluate(text string) (float64, error) {
 	e := Expression{text, 0}

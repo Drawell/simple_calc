@@ -1,12 +1,12 @@
-package simple_calc
+package lib
 
 import (
 	"strconv"
 	"unicode"
 )
 
-func (e *Expression) _ConsumeOperand() (float64, error) {
-	e._SkipSpaces()
+func (e *Expression) consumeOperand() (float64, error) {
+	e.skipSpaces()
 	start := e.ptr
 	for ; e.ptr < len(e.text) && (unicode.IsDigit(rune(e.text[e.ptr])) || e.text[e.ptr] == '.'); e.ptr++ {
 	}
@@ -19,7 +19,7 @@ func (e *Expression) _ConsumeOperand() (float64, error) {
 	return operand, nil
 }
 
-func _Execute(lOperand float64, operator string, rOperand float64) (float64, error) {
+func execute(lOperand float64, operator string, rOperand float64) (float64, error) {
 	switch operator {
 	case "+":
 		return lOperand + rOperand, nil
@@ -38,13 +38,13 @@ func _Execute(lOperand float64, operator string, rOperand float64) (float64, err
 	}
 }
 
-func (e *Expression) _NextChar() uint8 {
-	e._SkipSpaces()
+func (e *Expression) nextChar() uint8 {
+	e.skipSpaces()
 	return e.text[e.ptr]
 }
 
-func (e *Expression) _Consume(chars []uint8) (uint8, bool) {
-	e._SkipSpaces()
+func (e *Expression) consume(chars []uint8) (uint8, bool) {
+	e.skipSpaces()
 	if e.ptr >= len(e.text) {
 		return ' ', false
 	}
@@ -58,7 +58,7 @@ func (e *Expression) _Consume(chars []uint8) (uint8, bool) {
 	return ' ', false
 }
 
-func (e *Expression) _SkipSpaces() {
+func (e *Expression) skipSpaces() {
 	for ; e.ptr < len(e.text) && e.text[e.ptr] == ' '; e.ptr++ {
 	}
 }

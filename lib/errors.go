@@ -1,4 +1,4 @@
-package simple_calc
+package lib
 
 import "fmt"
 

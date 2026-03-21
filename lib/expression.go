@@ -1,4 +1,4 @@
-package simple_calc
+package lib
 
 type Expression struct {
 	text string
@@ -6,25 +6,25 @@ type Expression struct {
 }
 
 func (e *Expression) _ParseExpression() (float64, error) {
-	_, isOpen := e._Consume([]uint8{'('})
+	_, isOpen := e.consume([]uint8{'('})
 	lValue, err := e._ParseTerm()
 	if err != nil {
 		return 0, err
 	}
 
-	for operator, ok := e._Consume([]uint8{'+', '-'}); ok; operator, ok = e._Consume([]uint8{'+', '-'}) {
+	for operator, ok := e.consume([]uint8{'+', '-'}); ok; operator, ok = e.consume([]uint8{'+', '-'}) {
 		rValue, err := e._ParseTerm()
 		if err != nil {
 			return 0, err
 		}
 
-		lValue, err = _Execute(lValue, string(operator), rValue)
+		lValue, err = execute(lValue, string(operator), rValue)
 		if err != nil {
 			return 0, err
 		}
 	}
 
-	_, isClosed := e._Consume([]uint8{')'})
+	_, isClosed := e.consume([]uint8{')'})
 	if isOpen != isClosed {
 		return 0, ParseError{"There is not closing bracket", e.ptr}
 	}
@@ -38,13 +38,13 @@ func (e *Expression) _ParseTerm() (float64, error) {
 		return 0, err
 	}
 
-	for operator, ok := e._Consume([]uint8{'*', '/'}); ok; operator, ok = e._Consume([]uint8{'*', '/'}) {
+	for operator, ok := e.consume([]uint8{'*', '/'}); ok; operator, ok = e.consume([]uint8{'*', '/'}) {
 		rValue, err := e._ParseFactor()
 		if err != nil {
 			return 0, err
 		}
 
-		lValue, err = _Execute(lValue, string(operator), rValue)
+		lValue, err = execute(lValue, string(operator), rValue)
 		if err != nil {
 			return 0, err
 		}
@@ -54,10 +54,10 @@ func (e *Expression) _ParseTerm() (float64, error) {
 }
 
 func (e *Expression) _ParseFactor() (float64, error) {
-	e._SkipSpaces()
-	if e._NextChar() == '(' {
+	e.skipSpaces()
+	if e.nextChar() == '(' {
 		return e._ParseExpression()
 	} else {
-		return e._ConsumeOperand()
+		return e.consumeOperand()
 	}
 }

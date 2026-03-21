@@ -1,4 +1,4 @@
-package simple_calc
+package internal
 
 type Expression struct {
 	text string

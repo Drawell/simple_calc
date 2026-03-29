@@ -3,3 +3,9 @@ go test ./... -coverprofile=coverage
 
 # Make html report from coverage
 go tool cover -html coverage -o index.html
+
+# make git tag
+git tag -a v1.0.2 -m "Rename to calc"
+
+# push tag
+git push origin v1.0.2

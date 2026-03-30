@@ -53,6 +53,7 @@ func TestEvaluateInvalid(t *testing.T) {
 		expression string
 		errorMsg   string
 	}{
+		{"zero input", "", "Unable to get operand at 0"},
 		{"zero div", "2 / 0", "Zero division occurs at 0"},
 		{"zero div 2", "1 + (2 / 0)", "Zero division occurs at 0"},
 		{"zero div 3", "2 * (2 / 0)", "Zero division occurs at 0"},

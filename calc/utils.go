@@ -40,6 +40,9 @@ func execute(lOperand float64, operator string, rOperand float64) (float64, erro
 
 func (e *Expression) nextChar() uint8 {
 	e.skipSpaces()
+	if e.ptr >= len(e.text) {
+		return ' '
+	}
 	return e.text[e.ptr]
 }
 
